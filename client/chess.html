@@ -1,0 +1,1284 @@
+<!DOCTYPE HTML>
+<html style="height:100%;">
+  <head>
+    <title>Chess</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <style>
+body {
+    margin:0;
+    padding:0;
+    width: 100%;
+    height: 100%;
+    background-color: #d4cfcf;
+    -moz-user-select:none;
+    -webkit-user-select:none;
+    -ms-user-select:none;
+    -khtml-user-select:none;
+    user-select:none;
+}
+#container {
+    width: 100%;
+    text-align: center;
+    font-size: 15px;
+    height: 93.2%;
+}
+
+#server div{
+    height:30px;
+    line-height: 30px;
+}
+
+#server div:hover{
+    background-color: white;
+    font-weight: bold;
+}
+#room div{
+    width: 24%;
+    height: 10%;
+    min-height: 100px;
+    display: inline-block;
+    margin:10px 2px;
+    border-radius: 10px;
+    background-color: #00c2ff;
+    font-size: 20px;
+    text-align: center;
+}
+
+#room p{
+    margin: 0;
+    font-size: 15px;
+}
+
+#room div span{
+    display: inline-block;
+    width: 40%;
+    border-radius: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    height: 80%;
+    line-height: 80px;
+}
+
+#room div span:hover{
+    background-color: white;
+}
+
+#chess{
+    width: 500px;
+    position: absolute;
+    overflow: hidden;
+}
+#board{
+    width: 401px;
+    height: 451px;
+    padding: 30px;
+    background-color: #8f7a66;
+    position: relative;
+    top: 10%;
+    left: 10%;
+    right: 0;
+    border: 3px solid rgb(192, 166, 137);
+    border-radius: 2px;
+    box-shadow: 0 0 25px rgba(143, 97, 76, 0.35);
+}
+#board #line{
+    width: 100%;
+    height: 100%;
+}
+#board #line #rows{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+#board #line #lines{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    top: -100%;
+    overflow: hidden;
+}
+#board #line .row{
+    width: 100%;
+    height: 1px;
+    background-color: #571b16;
+    margin-bottom: 49px;
+}
+#board #line .line{
+    width: 1px;
+    height: 100%;
+    background-color: #571b16;
+    margin-right: 49px;
+    float: left;
+}
+#board #line .end{
+    margin: 0;
+}
+#board #line #river{
+    width: 461px;
+    height: 100%;
+    position: relative;
+    top: -200%;
+    left: -30px;
+}
+#board #line #river article{
+    position: relative;
+    top:201px;
+    width: 100%;
+    height: 49px;
+    background-color: rgba(143, 122, 102, 0.95);
+    /*background-image: url("ass/Riv.png");*/
+    box-shadow: inset 0 0 25px rgba(79, 139, 191, 0.55);
+    font-family: Arial,sans-serif;
+    font-size: 45px;
+    text-align: center;
+    letter-spacing: 1px;
+    color: #817c77;
+    opacity: 0.95;
+}
+#board #flower{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    top: -300%;
+    overflow: hidden;
+}
+#board #flower article{
+    width: 25px;
+    height: 25px;
+    position: relative;
+    left: 37px;
+    top: 37px;
+    float: left;
+    border: 1px solid rgba(134, 42, 3, 0.55);
+    transform:rotate(45deg);
+}
+#board #flower .L2{
+    width: 100%;
+    height: 50px;
+}
+#board #flower .L5{
+    width: 100%;
+    height: 50px;
+}
+#board #flower .L2 article:nth-child(2)
+{
+    margin-left: 273px;
+}
+#board #flower .L5 article:nth-child(1n+2)
+{
+    margin-left: 73px;
+}
+#board #flower .L5 article:nth-child(1)
+{
+    margin-left: -50px;
+}
+#board #flower .L5 article:nth-child(2)
+{
+    margin-left: 50px;
+}
+#board #flower #F{
+    margin-top: 50px;
+    height: 200px;
+}
+#board #cross{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    top: -400%;
+}
+#board #cross #T{
+    width: 100%;
+    height: 200px;
+    margin-bottom: 51px;
+}
+#board #cross #B{
+    width: 100%;
+    height: 200px;
+}
+#board #cross article{
+    margin: 0 auto;
+    width: 140px;
+    height: 1px;
+    position: relative;
+    top: 50px;
+    background-color: #752e2b;
+}
+#board #cross article:nth-child(1){
+    transform:rotate(45deg);
+}
+#board #cross  article:nth-child(2){
+    margin-top: -1px;
+    transform:rotate(-45deg);
+}
+#board #cross #B article{
+    position: relative;
+    top: 149px;
+}
+#board #space{
+    width: 450px;
+    height: 500px;
+    position: relative;
+    top: -100%;
+    margin: -25px;
+}
+#board #space article{
+    width: 44px;
+    height: 44px;
+    float: left;
+    transition: box-shadow 0.35s,outline 0.35s,border 0.35s,transform 0.35s;
+    border: 3px solid rgba(0, 0, 0, 0);
+}
+#board #space article:hover{
+    box-shadow:0 0 25pt rgba(0, 0, 0, 0.35);
+    border: 3px double rgba(0, 0, 0, 0.15);
+    transform: scale(1.1,1.1);
+}
+.CS{
+    border-radius: 500px;
+}
+.C{
+    font-family: "微软雅黑 light", "微软雅黑", Arial,sans-serif;
+    width: 40px;
+    height: 40px;
+    font-size: 25px;
+    border-radius: 50px;
+    line-height: 40px;
+    text-align: center;
+    border: 2px solid rgba(0, 0, 0, 0);
+    box-shadow: 0 0 25pt rgba(0, 0, 0, 0.35);
+    transition:transform 0.35s ;
+    cursor: pointer;
+}
+/*.C:hover{
+    transform: scale(1.1,1.1);
+}*/
+.BR{
+    border-color: #6ec672;
+    color: #f3f3f3;
+    background-color: #46804a;
+}
+.BB{
+    border-color: #6ec672;
+    color: #232323;
+    background-color: #46804a;
+}
+.PR{
+    border-color: #c69c13;
+    color: #f3f3f3;
+    background-color: #805435;
+}
+.PB{
+    border-color: #c69c13;
+    color: #232323;
+    background-color: #805435;
+}
+.JR{
+    border-color: #c6385a;
+    color: #f3f3f3;
+    background-color: rgba(128, 43, 34, 0.75);
+}
+.JB{
+    border-color: #c6385a;
+    color: #232323;
+    background-color: rgba(128, 43, 34, 0.75);
+}
+.MR{
+    border-color: #c6a902;
+    color: #f3f3f3;
+    background-color: #806328;
+}
+.MB{
+    border-color: #c6a902;
+    color: #232323;
+    background-color: #806328;
+}
+.XR{
+    border-color: #2c806e;
+    color: #f3f3f3;
+    background-color: #5d9eb2;
+}
+.XB{
+    border-color: #2c806e;
+    color: #232323;
+    background-color: #5d9eb2;
+}
+.SR{
+    border-color: #bebebe;
+    color: #820725;
+    background-color: rgba(216, 216, 216, 0.95);
+}
+.SB{
+    border-color: #bebebe;
+    color: #232323;
+    background-color: rgba(216, 216, 216, 0.95);
+}
+.J{
+    border-color: #820725;
+    color: #820725;
+    background-color: rgba(0, 0, 0, 0.25);
+}
+.S{
+    border-color: #232323;
+    color: #232323;
+    background-color: rgba(0, 0, 0, 0.25);
+}
+    </style>
+  </head>
+<body>
+    <div style='padding-left: 50px;height: 5%;background-color: #E33903;color:white;font-size: 30px;padding-top: 0.5%;'>Chess Games Battle Platform By Curry
+        <span style='font-size: 20px;float: right;margin-right: 50px;' id='user'></span>
+    </div>
+    <div id="container">
+        <div id='server' style='width: 19.7%;float: left;padding-top: 1%;font-family: SimHei,Georgia,sans-serif;height: 90%;border-right:1px solid white;'>
+            <p style="font-size: 20px;">服务器列表</p>
+            <div >菜鸟天堂</div>
+        </div>
+        <div style='width: 60%;float: left;padding-top: 1%;font-family: SimHei,Georgia,sans-serif;height: 98%;'>
+            <div style="height:4%;padding-top: 1%;font-size: 20px;border-bottom:1px solid white;">菜鸟天堂专区</div>
+            <div id='room' style='width:100%;overflow: scroll;height:95%;display: block;'>
+               
+            </div>
+            <div id='chess' style='width:60%;overflow: scroll;height:80%;display: none;'">
+                <div id="board">
+                    <div id="line">
+                        <div id="rows">
+                            <article class="row"></article>
+                            <article class="row"></article>
+                            <article class="row"></article>
+                            <article class="row"></article>
+                            <article class="row"></article>
+                            <article class="row"></article>
+                            <article class="row"></article>
+                            <article class="row"></article>
+                            <article class="row"></article>
+                            <article class="row end"></article>
+                        </div>
+                        <div id="lines">
+                            <article class="line"></article>
+                            <article class="line"></article>
+                            <article class="line"></article>
+                            <article class="line"></article>
+                            <article class="line"></article>
+                            <article class="line"></article>
+                            <article class="line"></article>
+                            <article class="line"></article>
+                            <article class="line end"></article>
+                        </div>
+                        <div id="river">
+                            <article>۞۞۞۞۞۞۞۞</article>
+                        </div>
+                        <div id="flower">
+                            <div id="F">
+                                <div class="L2">
+                                    <article></article>
+                                    <article class="t2"></article>
+                                </div>
+                                <div class="L5">
+                                    <article></article>
+                                    <article></article>
+                                    <article></article>
+                                    <article></article>
+                                    <article></article>
+                                </div>
+                            </div>
+                            <div id="L">
+                                <div class="L5">
+                                    <article></article>
+                                    <article></article>
+                                    <article></article>
+                                    <article></article>
+                                    <article></article>
+                                </div>
+                                <div class="L2">
+                                    <article></article>
+                                    <article></article>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="cross">
+                            <div id="T">
+                                <article></article>
+                                <article></article>
+                            </div>
+                            <div id="B">
+                                <article></article>
+                                <article></article>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="space"></div>
+                </div>
+                <div id='ready' style="background-color: #8f7a66; font-size: 20px;width: 100px;height: 100px;border-radius: 100px;margin-left: 650px;line-height: 100px;color:white;">Ready</div>
+            </div>
+        </div>
+        <div style='width: 20%;float: left;padding-top: 1%;font-family:Georgia,sans-serif;height: 94%;border-left:1px solid white;height: 98%;'>
+            <div style="height:4%;;padding-left: 5px;border-bottom:1px solid white;font-size:20px;">大厅聊天室</div>
+            <div id='chat' style="height:70%;overflow: scroll;padding-left: 5px;text-align: left;">
+
+            </div>
+            <textarea id='chatmsg' style="width: 96%;height: 17%;padding:2%;font-size: 15px;" placeholder="请输入聊天内容"></textarea>
+            <div id='sendchat' style="width: 80px;height: 35px;border-radius: 5px;float:right;margin: 5px;color:white;background-color: green;line-height: 35px;cursor: pointer;">发送</div>
+        </div>
+    </div>
+</body>
+<script src='http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js'></script>
+<script src='http://apps.bdimg.com/libs/layer/2.1/layer.js'></script>
+<script>
+/**
+ * js client
+ */
+var host = "ws://localhost:8000";
+var socket = null;
+var cometitor_name = "";
+var name = "";
+var roomsit = {}; //房间位置
+var temproomsit = {}; //临时房间位置 用于转存
+var readyStatus = 0;
+
+var onMove=false;
+var OnChoseNow=false;
+var nowChoseC=[];
+var nowWho=0;//0红 1黑
+var moveList=[];
+var eatList=[];
+
+
+//启动 初始化函数
+$().ready(function(){
+    name = $.trim(prompt('请输入你的临时玩家名称'));
+    if(name==null || name==""){
+        alert('请刷新网页，正确输入临时玩家名称');
+    }else{
+        $('#user').html('你好：'+ name);
+    }
+    creat_socket(host);
+    LoadGround();
+});
+
+function creat_socket(host){
+    try{
+        socket = new WebSocket(host);
+        console.log('WebSocket:已经连接.....');
+        socket.onopen = function(event){
+            send({'setname':{'name': name}, 'getRoomInfo':{}});
+        };
+        socket.onmessage = function(event){
+            var obj = $.parseJSON(event.data);
+            for(action in obj){
+                switch(action){
+                    case "chat":
+                        $('#chat').append('<p>'+obj[action].name+' 说：'+obj[action].msg+'</p>');
+                        break;
+                    case 'room':
+                        room(obj[action]);
+                        break;
+                    case 'game':
+                        game(obj[action]);
+                    case 'error':
+                        alert('So sorry,'+ obj[action]);
+                }
+            }
+        };
+
+        socket.onclose = function(event){
+            //onclose(event);
+        };
+    }catch(ex){console.log(ex);}
+}
+
+function send(obj){
+    if(socket.readyState == 1){
+        socket.send(JSON.stringify(obj));
+    }else{
+        alert("disconnected from server!");
+    }
+}
+
+$('#room').on('click', 'div span',function(){
+    if($(this).html()=='空<br>'){
+        var room = $('#room div').index($(this).parent());
+        var sit = $(this).data('sit');
+        temproomsit['room'] = room;
+        temproomsit['sit'] = sit;
+        send({'enterRoom':{'room':room, 'sit':sit}});
+    }else{
+        alert('There is a player in the room.');
+    }
+});
+
+$('#ready').click(function(){
+    if(JSON.stringify(roomsit) != '{}'){
+        if(readyStatus == 0){
+            readyStatus = 1;
+            var text = 'Cancel';
+            var color = '#6ec672';
+        }else{
+            readyStatus = 0;
+            var text = 'Ready';
+            var color = '#8f7a66';
+        }
+        send({'ready':{'status':readyStatus}});
+        $(this).css({'background-color':color});
+        $(this).html(text);
+    }else{
+        alert('Sorry, data is wrong please press F5 to reload..');
+    }
+});
+
+function room(roominfo){
+    for(mainaction in roominfo){
+        switch(mainaction){
+            case 'all':
+                $('#room').html('');
+                var data = roominfo[mainaction];
+                var roomdata = '';
+                for (i in data) {
+                    var colorcss1 = '';
+                    var colorcss2 = '';
+                    var ext = ';pointer-events:none';
+                    var roomext = '';
+                    if(data[i][0]!=null){
+                        colorcss1 = 'style="background-color:white'+ext+'"';
+                    }
+                    if(data[i][1]!=null){
+                        colorcss2 = 'style="background-color:white'+ext+'"';
+                    }
+                    if(roomsit.room == i){
+                        roomext = 'style="pointer-events:none"';
+                        if(roomsit.sit == 0){
+                            colorcss1 = 'style="background-color:red;color:white'+ext+'"';
+                        }else{
+                            colorcss2 = 'style="background-color:red;color:white'+ext+'"';
+                        }
+                    }
+                    if(data[i][2]==1 && data[i][3]==1){
+                        roomdata += '<div '+roomext+'><p>房间：'+i+'</p><span '+colorcss1+'>'+data[i][0]+'</span><span'+colorcss2+'>'+data[i][1]+'</span><p>已经开始游戏</p></div>';
+                    }else{
+                        roomdata += '<div '+roomext+'><p>房间：'+i+'</p><span '+colorcss1+' data-sit="0">'+ (data[i][0]|| '空') +'<br>'+(data[i][2]==null? '':'状态：准备') +'</span><span '+colorcss2+' data-sit="1">'+(data[i][1]||'空')+'<br>'+ (data[i][3]==null? '':'状态：准备') +'</span></div>';
+                    }
+
+                }
+                $('#room').html(roomdata);
+                break;
+            case 'change':
+                $('#room').css({'display':'none'});
+                $('#chess').css({'display':'block'});
+                roomsit['room'] = temproomsit['room'];
+                roomsit['sit'] = temproomsit['sit'];
+                //进入棋盘
+                break;
+        }
+    } 
+}
+
+//main game logical to server
+function game(data){
+    for(act in data){
+        switch(act){
+            case 'begin':
+                putDef();
+                showC();
+                if(data[act]){
+                    runNow = true;
+                    $('#chess').css({'pointer-events:auto;'});
+                }else{
+                    runNow = false;
+                    $('#chess').css({'pointer-events:none;'});
+                }
+                break;
+            case 'info':
+                layer.msg(data[act], function(){});
+            case 'init':
+                //lost connection and reconnected to play
+                break;
+        }
+    }
+}
+
+
+$('#sendchat').click(function(){
+    var msg = $.trim($('#chatmsg').val());
+    if(msg){
+        send({'chat':msg});
+        $('#chatmsg').val('');
+    }
+});
+
+
+//绘制棋盘相关
+function LoadGround(){
+    var g="";
+    for(var j=0;j<10 ;j++){
+        map[j]=[];
+        for(var i=0;i<9 ;i++){
+            map[j][i]=0;
+            g+="<article class='CS' id='CS"+j+"-"+i+"' onclick='onChose("+j+","+i+")'></article>";
+        }
+    }
+    $("#space").html(g);
+    Log("完成创建场景");
+}
+
+//0空
+//兵1 炮2 车3 马4 相5 士6 将7 红
+//卒-1 炮-2 车-3 马-4 象-5 士-6 帅-7 黑
+function getCText(j,i){
+    var T=[];
+    switch (map[j][i])
+     {
+     case (0):
+        return null;
+     break;
+     case (1):
+         T[0]="兵";
+         T[1]="BR";
+     break;
+     case (2):
+         T[0]="炮";
+         T[1]="PR";
+     break;
+     case (3):
+         T[0]="车";
+         T[1]="JR";
+     break;
+     case (4):
+         T[0]="马";
+         T[1]="MR";
+     break;
+     case (5):
+         T[0]="相";
+         T[1]="XR";
+     break;
+     case (6):
+         T[0]="士";
+         T[1]="SR";
+     break;
+     case (7):
+         T[0]="将";
+         T[1]="J";
+     break;
+     case (-1):
+         T[0]="卒";
+         T[1]="BB";
+     break;
+     case (-2):
+         T[0]="炮";
+         T[1]="PB";
+     break;
+     case (-3):
+         T[0]="车";
+         T[1]="JB";
+     break;
+     case (-4):
+         T[0]="马";
+         T[1]="MB";
+     break;
+     case (-5):
+         T[0]="象";
+         T[1]="XB";
+     break;
+     case (-6):
+         T[0]="士";
+         T[1]="SB";
+     break;
+     case (-7):
+         T[0]="帅";
+         T[1]="S";
+     break;
+     default :
+         return null;
+     break;
+     }
+    return T;
+}
+
+function showC(){
+    for(var j=0;j<10 ;j++) {
+        for (var i = 0; i < 9; i++) {
+            var cla="";
+            var tex="";
+            var isNone=false;
+            var T=getCText(j,i);
+            if(T == null){
+                isNone=true;
+            }else{
+                cla=T[1];
+                tex=T[0];
+            }
+            if(isNone){
+                continue;
+            }
+            $("#CS"+j+"-"+i).html(
+                    "<div class='C "+cla+"'>"+tex+"</div>"
+            )
+        }
+    }
+    Log("完成显示场景");
+}
+
+//放置棋子相关
+//0清除 1绿色 2黄色 3红色
+function showChose(j,i,t){
+    var o=$("#CS"+j+"-"+i);
+    if(t==0){
+        o.css({
+            "box-shadow": "",
+            "border": ""
+        });
+        return;
+    }
+    var c="";
+    switch (t){
+        case 1:
+            c="6bc274";
+            break;
+        case 2:
+            c="eeb948";
+            break;
+        case 3:
+            c="c53f46";
+            break;
+        default :
+            break;
+    }
+   o.css({
+        "box-shadow": "0 0 25pt #"+c,
+        "border": "3px solid #"+c
+    })
+}
+
+function cleanChose(){
+    $(".CS").css({
+        "box-shadow": "",
+        "border": ""
+    })
+}
+function move(y,x,j,i,eat){
+    onMove=true;
+    if(eat==null)
+        if(map[j][i]!=0){
+            LogError("错误的位置");
+            return;
+        }
+    var cla="";
+    var tex="";
+    var T=getCText(y,x);
+    if(T == null){
+        LogError("丢失棋子信息");
+        return;
+    }else{
+        cla=T[1];
+        tex=T[0];
+    }
+    if(eat==null)
+        Log(y+"-"+x+" "+tex+" 移动到"+j+"-"+i);
+    else
+        Log(y+"-"+x+" "+tex+" 吃"+j+"-"+i+" "+getCText(j,i)[0]);
+    map[j][i]=map[y][x];
+    map[y][x]=0;
+    $("#CS"+j+"-"+i).html(
+            "<div class='C "+cla+"' style='transform:translate("+(x-i)*45+"px,"+(y-j)*45+"px);'>"+tex+"</div>"
+    )
+    $("#CS"+y+"-"+x).html(
+        ""
+    )
+    setTimeout(function(){
+        $("#CS"+j+"-"+i+" div").css({
+            transform:""
+        })
+    },10);
+    setTimeout(function(){
+        trunH();
+        onMove=false;
+    },700);
+}
+
+function eat(y,x,j,i){
+    onMove=true;
+    $("#CS"+j+"-"+i+" div").css({
+        transform:"scale(0,0)"
+    })
+    setTimeout(function(){
+        move(y,x,j,i,true);
+    },700)
+}
+
+function onChose(j,i){
+    if(!runNow)return;
+    if(onMove)return;
+    //alert(j+""+i);
+    var CC=WhatSpace(j,i);
+    if(CC==0){
+        onChoseS(j,i);
+    }else{
+        Log("选择了"+j+"-"+i+"  "+CC);
+        onChoseC(j,i,CC);
+    }
+}
+
+function cleanSt(){
+    nowChoseC=[];
+    cleanChose();
+    moveList=[];
+    eatList=[];
+    OnChoseNow=false;
+}
+
+function trunH(){
+    if(nowWho==0){
+        nowWho=1;
+    }else{
+        nowWho=0;
+    }
+    cleanSt();
+}
+
+function showSt(j,i,t){
+    nowChoseC=[];
+    cleanChose();
+    showChose(j,i,1);
+    var tmap = WhereCan(j,i,t);
+    if(tmap!=null && tmap.length>0)
+        for(var q=0;q<tmap.length;q++){
+            if(map[tmap[q][0]][tmap[q][1]]==0){
+                moveList.push(tmap[q]);
+            }else{
+                eatList.push(tmap[q]);
+            }
+            showChose(tmap[q][0],tmap[q][1],tmap[q][2]+2);
+        }
+    nowChoseC[0]=j;
+    nowChoseC[1]=i;
+    nowChoseC[2]=t;
+    OnChoseNow=true;
+}
+
+function onChoseC(j,i,t){
+    if(!OnChoseNow){
+        if(nowWho==0){
+            if(t<0)return;
+        }
+        if(nowWho==1){
+            if(t>0)return;
+        }
+    }
+    if(nowChoseC[0]==j&&nowChoseC[1]==i){
+        cleanSt();
+        return;
+    }
+    if(OnChoseNow==true){
+        for(var q=0;q<eatList.length;q++){
+            if(eatList[q][0]==j&&eatList[q][1]==i){
+                //eat && move
+                eat(nowChoseC[0],nowChoseC[1],j,i);
+                break;
+            }
+        }
+        cleanSt();
+    }
+    if(nowWho==0){
+        if(t<0){
+            cleanSt();
+            return;
+        }
+    }
+    if(nowWho==1){
+        if(t>0){
+            cleanSt();
+            return;
+        }
+    }
+    showSt(j,i,t);
+}
+function onChoseS(j,i){
+    if(OnChoseNow){
+        for(var q=0;q<moveList.length;q++){
+            if(moveList[q][0]==j&&moveList[q][1]==i){
+                move(nowChoseC[0],nowChoseC[1],j,i);
+                break;
+            }
+        }
+    }
+    cleanSt();
+}
+
+//象棋规则相关
+function binMove(tmap,c,y,x){//0红 1黑
+    var w;
+    var h=0;
+    if(c==0){
+        w=y<5;
+        h=-1;
+    }else{
+        w=y>4;
+        h=1;
+    }
+    if(w){
+        if(y+h>=0&&y+h<map.length){
+            var t1=[];
+            t1[0]=y+h;
+            t1[1]=x;
+            tmap.push(t1);
+        }
+        var t2=[];var t3=[];
+        t2[0]=y;t3[0]=y;
+        t2[1]=x-1;t3[1]=x+1;
+        tmap.push(t2);tmap.push(t3);
+    }else{
+        var t=[];
+        t[0]=y+h;
+        t[1]=x;
+        tmap.push(t);
+    }
+}
+function paoMove(tmap,c,y,x){
+    paoMove_(tmap,0,c,y,x);
+    paoMove_(tmap,1,c,y,x);
+    paoMove_(tmap,2,c,y,x);
+    paoMove_(tmap,3,c,y,x);
+}
+function paoMove_(tmap,d,c,y,x){//0上1左2下3右
+    var q= y,w= x,qi= 0,wi= 0,ci=0;//ci:0红 1黑
+    if(c==0){
+        ci=1;
+    }else{
+        ci=-1;
+    }
+    var cc;
+    switch (d){
+        case 0:
+            cc=function(q){return q>=0;}
+            qi=-1;
+            break;
+        case 1:
+            cc=function(q,w){return w>=0;}
+            wi=-1;
+            break;
+        case 2:
+            cc=function(q){return q<map.length;}
+            qi=1;
+            break;
+        case 3:
+            cc=function(q,w){return w<map.length;}
+            wi=1;
+            break;
+    }
+    var ce=false;
+    while(true){
+        if(!cc(q,w))break;
+        if(q==y&&w==x){
+            q+=qi;w+=wi;
+            continue;
+        }
+        if(map[q][w]==0){
+            if(!ce){
+                var t=[];
+                t[0]=q;
+                t[1]=w;
+                tmap.push(t);
+            }
+        }else{
+            if(ce){
+                if(map[q][w]*ci<0){
+                    var t=[];
+                    t[0]=q;
+                    t[1]=w;
+                    tmap.push(t);
+                    ce=false;
+                    break;
+                }
+            }
+            ce=true;
+        }
+        q+=qi;w+=wi;
+    }
+}
+function juMove(tmap,c,y,x){
+    for(var q=y;q>=0;q--){
+        if(q==y)continue;
+        if(!fastMove(tmap,c,q,x))break;
+    }
+    for(var q=x;q>=0;q--){
+        if(q==x)continue;
+        if(!fastMove(tmap,c,y,q))break;
+    }
+    for(var q=y;q<map.length;q++){
+        if(q==y)continue;
+        if(!fastMove(tmap,c,q,x))break;
+    }
+    for(var q=x;q<map.length;q++){
+        if(q==x)continue;
+        if(!fastMove(tmap,c,y,q))break;
+    }
+}
+function fastMove(tmap,c,y,x){//c:0红 1黑
+    var ci=0;
+    if(c==0){
+        ci=1;
+    }else{
+        ci=-1;
+    }
+    if(map[y][x]==0){
+        var t=[];
+        t[0]=y;
+        t[1]=x;
+        tmap.push(t);
+        return true;
+    }else{
+        if(map[y][x]*ci<0){
+            var t=[];
+            t[0]=y;
+            t[1]=x;
+            tmap.push(t);
+        }
+        return false;
+    }
+}
+function maMove(tmap,c,y,x){
+    function fastMa(tmap,y,x,ys,xs,c){
+        if(y+ys<map.length&&y+ys>=0&&x+xs<map.length&&x+xs>=0)
+        if(map[y+ys][x+xs]==0){
+            var yz= 0,xz=0;
+            if(ys==0){
+                yz=-1;
+            }else{
+                xz=-1;
+            }
+            if(y+ys+ys-yz<map.length&&y+ys+ys-yz>=0&&x+xs+xs-xz<map.length&&x+xs+xs-xz>=0)
+            if(map[y+ys+ys-yz][x+xs+xs-xz]*c<=0){
+                var t=[];
+                t[0]=y+ys+ys-yz;
+                t[1]=x+xs+xs-xz;
+                tmap.push(t);
+            }
+            if(y+ys+ys+yz<map.length&&y+ys+ys+yz>=0&&x+xs+xs+xz<map.length&&x+xs+xs+xz>=0)
+            if(map[y+ys+ys+yz][x+xs+xs+xz]*c<=0){
+                var t1=[];
+                t1[0]=y+ys+ys+yz;
+                t1[1]=x+xs+xs+xz;
+                tmap.push(t1);
+            }
+        }
+    }
+    var cc=0;
+    if(c==0){
+        cc=1;
+    }else{
+        cc=-1;
+    }
+    fastMa(tmap,y,x,-1,0,cc);
+    fastMa(tmap,y,x,1,0,cc);
+    fastMa(tmap,y,x,0,-1,cc);
+    fastMa(tmap,y,x,0,1,cc);
+}
+function xiangMove(tmap,c,y,x){//c:0红 1黑
+    function fastXiang(tmap,y,x,yy,xx,c,cy){
+        if(y+yy*2<map.length&&y+yy*2>=0&&x+xx*2<map.length&&x+xx*2>=0){
+            if(cy(y+yy*2))
+            if(map[y+yy][x+xx]==0){
+                if(map[y+yy*2][x+xx*2]*c<=0){
+                    var t=[];
+                    t[0]=y+yy*2;
+                    t[1]=x+xx*2;
+                    tmap.push(t);
+                }
+            }
+        }
+    }
+    var cc=0;
+    if(c==0){
+        cc=1;
+    }else{
+        cc=-1;
+    }
+    var ch;
+    if(c==0){
+        ch=function(y){return y>4};
+    }else{
+        ch=function(y){return y<5};
+    }
+    fastXiang(tmap,y,x,1,1,cc,ch);
+    fastXiang(tmap,y,x,1,-1,cc,ch);
+    fastXiang(tmap,y,x,-1,1,cc,ch);
+    fastXiang(tmap,y,x,-1,-1,cc,ch);
+}
+function shiMove(tmap,c,y,x){//c:0红 1黑
+    function fastShi(tmap,y,x,yy,xx,c,cc){
+        if(cc(y+yy)){
+            if(x+xx>=3&&x+xx<=5){
+                if(map[y+yy][x+xx]*c<=0){
+                    var t=[];
+                    t[0]=y+yy;
+                    t[1]=x+xx;
+                    tmap.push(t);
+                }
+            }
+        }
+    }
+    var cf;
+    var cc=0;
+    if(c==0){
+        cc=1;
+        cf=function(y){return y>=7&&y<=9}
+    }else{
+        cf=function(y){return y>=0&&y<=2}
+        cc=-1;
+    }
+    fastShi(tmap,y,x,1,1,cc,cf);
+    fastShi(tmap,y,x,-1,1,cc,cf);
+    fastShi(tmap,y,x,1,-1,cc,cf);
+    fastShi(tmap,y,x,-1,-1,cc,cf);
+}
+function JSMove(tmap,c,y,x){
+    function fastJS(tmap,y,x,yy,xx,c,cc){
+        if(cc(y+yy)){
+            if(x+xx>=3&&x+xx<=5){
+                if(map[y+yy][x+xx]*c<=0){
+                    var t=[];
+                    t[0]=y+yy;
+                    t[1]=x+xx;
+                    tmap.push(t);
+                }
+            }
+        }
+    }
+    var cf;
+    var cc=0;
+    if(c==0){
+        cc=1;
+        cf=function(y){return y>=7&&y<=9}
+    }else{
+        cf=function(y){return y>=0&&y<=2}
+        cc=-1;
+    }
+    fastJS(tmap,y,x,1,0,cc,cf);
+    fastJS(tmap,y,x,-1,0,cc,cf);
+    fastJS(tmap,y,x,0,-1,cc,cf);
+    fastJS(tmap,y,x,0,1,cc,cf);
+    if(c==0){
+        for(var q=y-1;q<map.length&&q>=0;q--){
+            if(map[q][x]==0){
+                continue;
+            }
+            if(map[q][x]==-7){
+                var t=[];
+                t[0]=q;
+                t[1]=x;
+                tmap.push(t);
+            }else break;
+        }
+    }else{
+        for(var q=y+1;q<map.length&&q>=0;q++){
+            if(map[q][x]==0){
+                continue;
+            }
+            if(map[q][x]==7){
+                var t=[];
+                t[0]=q;
+                t[1]=x;
+                tmap.push(t);
+            }else break;
+        }
+    }
+}
+
+function Log(info){
+    if(DeBug){
+        console.log("DEBUG:"+info);
+    }
+}
+function LogError(info){
+    if(DeBug){
+        console.log("ERROR:"+info);
+    }
+}
+
+//0空
+//兵1 炮2 车3 马4 相5 士6 将7 红
+//卒-1 炮-2 车-3 马-4 象-5 士-6 帅-7 黑
+var map=[];
+var runNow=false;
+var DeBug=true;
+
+function putDef(){
+    map[0][0]=-3; map[9][0]=3;
+    map[0][1]=-4; map[9][1]=4;
+    map[0][2]=-5; map[9][2]=5;
+    map[0][3]=-6; map[9][3]=6;
+    map[0][4]=-7; map[9][4]=7;
+    map[0][5]=-6; map[9][5]=6;
+    map[0][6]=-5; map[9][6]=5;
+    map[0][7]=-4; map[9][7]=4;
+    map[0][8]=-3; map[9][8]=3;
+
+    map[2][1]=-2; map[7][1]=2;
+    map[2][7]=-2; map[7][7]=2;
+    map[3][0]=-1; map[6][0]=1;
+    map[3][2]=-1; map[6][2]=1;
+    map[3][4]=-1; map[6][4]=1;
+    map[3][6]=-1; map[6][6]=1;
+    map[3][8]=-1; map[6][8]=1;
+    Log("完成放置默认棋子");
+}
+
+function WhatSpace(y,x){
+    return map[y][x];
+}
+
+function CanEat(y,x,c){
+    var cc=0;
+    if(c==0){
+        cc=1;
+    }else{
+        cc=-1;
+    }
+    return map[y][x]*cc<0;
+}
+
+//0空
+//兵1 炮2 车3 马4 相5 士6 将7 红
+//卒-1 炮-2 车-3 马-4 象-5 士-6 帅-7 黑
+function WhereCan(y,x,t){//0可以走 1可以吃
+    var c=0;
+    if(t<=0){
+        c=1;
+        t*=-1;
+    }
+    var tmap=[];
+    switch (t){
+        case 1:
+            binMove(tmap,c,y,x);
+            break;
+        case 2:
+            paoMove(tmap,c,y,x);
+            break;
+        case 3:
+            juMove(tmap,c,y,x);
+            break;
+        case 4:
+            maMove(tmap,c,y,x);
+            break;
+        case 5:
+            xiangMove(tmap,c,y,x);
+            break;
+        case 6:
+            shiMove(tmap,c,y,x);
+            break;
+        case 7:
+            JSMove(tmap,c,y,x);
+            break;
+        default :
+            break;
+    }
+    for(var l=0;l<tmap.length;l++){
+        if(CanEat(tmap[l][0],tmap[l][1],c)){
+            tmap[l][2]=1;
+        }else{
+            tmap[l][2]=0;
+        }
+    }
+    return tmap;
+}
+
+</script>
+</html>
